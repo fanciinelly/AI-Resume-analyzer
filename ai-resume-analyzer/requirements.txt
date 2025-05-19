@@ -2,5 +2,8 @@ pdf2image==1.17.0
 pdfplumber==0.11.4
 pytesseract==0.3.13
 python-dotenv==1.0.1
-streamlit==1.32.0
+streamlit
 google.generativeai
+plotly
+numpy
+# streamlit==1.32.0
