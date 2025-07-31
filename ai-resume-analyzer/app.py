@@ -19,7 +19,7 @@ import csv
 load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-TOTAL_DAILY_LIMIT = 50000
+TOTAL_DAILY_LIMIT = 250000 # Updated to reflect the new model's limit
 session_tokens_used = 0
 
 def extract_text_from_pdf(pdf_path):
@@ -47,7 +47,8 @@ def extract_text_from_pdf(pdf_path):
 
 def analyze_resume(resume_text, job_description=None):
     global session_tokens_used
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    # **FIX 1: Updated model from 'gemini-1.5-flash' to 'gemini-2.5-flash'**
+    model = genai.GenerativeModel("gemini-2.5-flash")
     base_prompt = f"""
     You are an experienced HR with technical expertise. Review the provided resume.
     Share a professional evaluation on whether the profile aligns with the role.
@@ -70,7 +71,8 @@ def analyze_resume(resume_text, job_description=None):
 
 def calculate_scores(resume_text, job_description):
     global session_tokens_used
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    # **FIX 2: Updated model from 'gemini-1.5-flash' to 'gemini-2.5-flash'**
+    model = genai.GenerativeModel("gemini-2.5-flash")
     prompt = f"""
     Return a valid JSON with scores (1-10) for:
       - Technical Skills Match
@@ -80,9 +82,9 @@ def calculate_scores(resume_text, job_description):
       - Overall Match
 
     Each must include:
-      - \"score\": int
-      - \"reason\": str
-      - \"suggestion\": str (optional, if score < 8)
+      - "score": int
+      - "reason": str
+      - "suggestion": str (optional, if score < 8)
 
     Resume: {resume_text}
     Job Description: {job_description}
@@ -102,7 +104,8 @@ def calculate_scores(resume_text, job_description):
 
 def calculate_match_percentage(resume_text, job_description):
     global session_tokens_used
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    # **FIX 3: Updated model from 'gemini-1.5-flash' to 'gemini-2.5-flash'**
+    model = genai.GenerativeModel("gemini-2.5-flash")
     prompt = f'''
     Return JSON in this format only:
     {{"match": 85, "explanation": "Candidate meets most requirements."}}
@@ -205,9 +208,7 @@ st.title("AI Resume Analyzer")
 with st.expander("ℹ️ About this Project"):
     st.markdown("""
     **Developer:** Nwafor Princewill  
-    **Final Year Project - Computer Science**  
-
-    This project is designed to help **HR professionals**, **job seekers**, and **career coaches** by providing automated resume evaluations using **Google Gemini AI**. It:
+    **Final Year Project - Computer Science** This project is designed to help **HR professionals**, **job seekers**, and **career coaches** by providing automated resume evaluations using **Google Gemini AI**. It:
 
     - Evaluates uploaded resumes and matches them with provided job descriptions.
     - Generates an in-depth analysis report with recommendations.
